@@ -1,10 +1,16 @@
+using App.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();       // them razor page
+
+builder.Services.AddSingleton<PlanetService>();
+builder.Services.AddSingleton<ProductService>();
 
 builder.Services.Configure<RazorViewEngineOptions>(options => {
     //đường dẫn mặc định: /View/Controller/Action.cshtml
@@ -30,9 +36,54 @@ app.UseRouting();
 app.UseAuthentication();    // xac dinh danh tinh
 app.UseAuthorization();     // xac dinh quyen truy cap
 
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+// MapController
+// MapControllerRoute
+// MapDefaultControlerRoute
+// MapAreaControllerRoute
+
+// URL: start-here/ten controller/ten action/id <=> start-here/Home/Index
+// app.MapControllerRoute(
+//     name: "firstrout",
+//     pattern: "start-here/{controller=Home}/{action=Index}/{id?}");
+
+
+// Areas/AreaName/Views/ControllerName/Action.html
+app.MapAreaControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}",
+    areaName: "ProductManage"
+);
+
+// Controller khong co Area
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+// app.MapControllerRoute(
+//     name: "firstrout",
+//     pattern: "{url:xemsanpham}/id:range(2,10)",
+//     defaults: new {
+//         controller = "Home",
+//         action = "Nothing"}
+//     // ,constraints: new {
+//     //     url = "xemsanpham",
+//     //     id = new RangeRouteConstraint(2, 10)}
+//     );
+
+
+app.UseEndpoints(options => {
+    options.MapGet("/sayhi", async (context) => {
+        await context.Response.WriteAsync($"Hello ASP.NET MVC {DateTime.Now}");
+        });
+    // options.MapRazorPages();
+});
+
 
 app.MapRazorPages();    // truy cap razor page
 
