@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+* {margin: 0; padding: 0}
+.menu {background: #333;height: 40px}
+.menu li{float: left; list-style: none; margin-right: 10px; padding: 10px 5px; width: 120px}
+.menu li:hover {background: #222;}
+.menu li a{color: #fff; text-decoration: none}
+.menu li ul li{display:none; width: 100px ;margin-top: 10px}
+.menu li:hover ul li{display: block}
