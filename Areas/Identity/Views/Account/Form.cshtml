@@ -1,0 +1,14 @@
+@model VerifyCodeViewModel
+
+
+@Html.ValidationSummary()
+
+<hr>
+
+<div>
+    @Html.LabelFor(model => model.Provider)
+    @Html.TextBoxFor(model => model.RememberMe)
+    @Html.ValidationMessageFor(model => model.ReturnUrl)
+    @Html.ValidationMessageFor(model => model.RememberBrowser);
+    @Html.ValidationMessageFor(model => model.Code);
+</div>

@@ -1,3 +1,4 @@
+using App.Data;
 using App.Models;
 using App.Services;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,17 @@ builder.Services.AddDbContext<AppDbContext>(options => {
     options.UseSqlServer(connectString);
     
 });
+
+builder.Services.AddOptions();
+// dùng Configuration để đọc MailSettings từ file config
+// đăng ký lớp cấu hình MailSettings được thiết lập dữ liệu từ MailSettings đọc được
+// và được Inject vào SendMailService
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
+// Đăng ký dịch vụ SendMailService
+builder.Services.AddSingleton<IEmailSender, SendMailService>();
+
+builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -77,6 +89,13 @@ builder.Services.AddAuthentication()
                 });
 
 
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("ViewManageMenu", builder => {
+        builder.RequireAuthenticatedUser();
+        builder.RequireRole(RoleName.Administrator);
+    });
+});
+
 
 builder.Services.Configure<RazorViewEngineOptions>(options => {
     //đường dẫn mặc định: /View/Controller/Action.cshtml
@@ -119,6 +138,11 @@ app.UseAuthorization();     // xac dinh quyen truy cap
 
 
 // Areas/AreaName/Views/ControllerName/Action.html
+app.MapAreaControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action}/{id?}",
+    areaName: "Identity"
+);
 app.MapAreaControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}",
