@@ -11,12 +11,13 @@
             <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
                 Manage
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-left">
                 <li>
                     <a class="dropdown-item" asp-action="Index" asp-controller="DbManage" asp-area="Database">Database</a>
                     <a class="dropdown-item" asp-action="Index" asp-controller="Contact" asp-area="Contact">Quản lý liên hệ</a>
                     <a class="dropdown-item" asp-action="Index" asp-controller="Role" asp-area="Identity">Quản lý role</a>
                     <a class="dropdown-item" asp-action="Index" asp-controller="User" asp-area="Identity">Quản lý User</a>
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Category" asp-area="Blog">Quản lý Blog</a>
                 </li>
             </ul>
         </div>
