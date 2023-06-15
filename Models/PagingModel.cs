@@ -7,7 +7,7 @@ namespace App.Models
         public int currentpage { get; set; }
         public int countpages { get; set; }
 
-        public Func<int?, string> generateUrl { get; set; }
+        public Func<int?, string>? generateUrl { get; set; }
         
     }
    
