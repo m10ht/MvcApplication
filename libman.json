@@ -10,6 +10,15 @@
     {
       "library": "summernote@0.8.20",
       "destination": "wwwroot/lib/summernote"
+    },
+
+    {
+      "library": "jqueryui@1.13.2",
+      "destination": "wwwroot/lib/jqueryui"
+    },
+    {
+      "library": "elfinder@2.1.62",
+      "destination": "wwwroot/lib/elfinder"
     }
   ]
 }
