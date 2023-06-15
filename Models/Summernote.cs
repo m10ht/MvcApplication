@@ -21,7 +21,7 @@ namespace App.Models
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
                     ['hight', ['hight']],
-                    ['insert', ['link', 'picture', 'video']],
+                    ['insert', ['link', 'picture', 'video', 'elfinder']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]";
     }
