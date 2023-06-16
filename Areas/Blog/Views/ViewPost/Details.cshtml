@@ -1,0 +1,57 @@
+@using App.Components
+@model Post
+@{
+    List<Category>? categories = ViewBag.categories as List<Category>;
+    Category? category = ViewBag.category as Category;
+    IQueryable<Post>? otherPosts = ViewBag.otherPosts as IQueryable<Post>;
+    ViewData["Title"] = Model.Title;
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        @if (category != null) {
+            var listCategory = category.ListParents();
+            foreach (var li in listCategory) {
+                <li class="breadcrumb-item">
+                    <a asp-action="Index" asp-route-categoryslug=@li.Slug>@li.Title</a>
+                </li>
+            }
+                <li class="breadcrumb-item">
+                    <a asp-action="Index" asp-route-categoryslug=@category.Slug>@category.Title</a>
+                </li>
+        }
+  </ol>
+</nav>
+
+<div class="detailpost">
+    <h1>@Model.Title</h1>
+    <div class="sapo">
+        @Model.Description
+    </div>
+    <div>
+        <i>Ngày cập nhật: @Model.DateUpdated</i> |
+        Tác giả: <strong>@Model.Author?.UserName</strong>
+    </div>
+    <hr>
+    @Html.Raw(Model.Content)
+</div>
+
+
+
+
+@section Sidebar {
+    @await Component.InvokeAsync("App.Components.CategorySidebar", new CategorySidebar.CategorySidebarData() {
+        Categories = categories,
+        Level = 0,
+        CategorySlug = category?.Slug
+    })
+
+<ul class="list-group">
+    @foreach (var post in otherPosts) {
+        <li class="list-group-item">
+            <a asp-action="Details" asp-controller="ViewPost" asp-route-postslug="@post.Slug">@post.Title</a>
+        </li>
+    }
+</ul>
+}
