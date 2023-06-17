@@ -35,6 +35,9 @@ builder.Services.AddRazorPages();       // them razor page
 builder.Services.AddSingleton<PlanetService>();
 // builder.Services.AddSingleton<ProductService>();
 
+builder.Services.AddTransient<CartService>();
+
+
 // Dang ky Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
@@ -98,6 +101,13 @@ builder.Services.AddAuthorization(options => {
 });
 
 
+builder.Services.AddDistributedMemoryCache();   // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+builder.Services.AddSession(cfg =>{             // Đăng ký dịch vụ Session
+    cfg.Cookie.Name = "appmvc";                 // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+    cfg.IdleTimeout = new TimeSpan(0, 30, 0);   // Thời gian tồn tại của Session
+});
+
+
 builder.Services.Configure<RazorViewEngineOptions>(options => {
     //đường dẫn mặc định: /View/Controller/Action.cshtml
     // Thêm đường dẫn để tìm file cshtml để show ra View với RazorPage
@@ -123,6 +133,8 @@ app.UseStaticFiles(new StaticFileOptions() {
         ),
         RequestPath = "/contents"
 });
+
+app.UseSession();
 
 app.UseRouting();
 
