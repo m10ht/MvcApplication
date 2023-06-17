@@ -33,7 +33,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();       // them razor page
 
 builder.Services.AddSingleton<PlanetService>();
-builder.Services.AddSingleton<ProductService>();
+// builder.Services.AddSingleton<ProductService>();
 
 // Dang ky Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>()
