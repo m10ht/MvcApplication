@@ -1,8 +1,10 @@
 using App.Data;
+using App.Menu;
 using App.Models;
 using App.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,9 @@ builder.Services.AddSingleton<PlanetService>();
 
 builder.Services.AddTransient<CartService>();
 
+builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+
+builder.Services.AddTransient<AdminSidebarService>();
 
 // Dang ky Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>()

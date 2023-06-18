@@ -1,6 +1,10 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model AddUserClaimModel
 @{
     ViewData["Title"] = "Claim của user";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 <h1>@ViewData["Title"] : @ViewBag.user.UserName</h1>
 <partial name="_StatusMessage" />
@@ -45,4 +49,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@{
+    adminSidebarService.SetActive("Identity", "User", "AddClaim");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
 }

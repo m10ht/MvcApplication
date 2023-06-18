@@ -1,0 +1,12 @@
+@using App.Menu
+
+@inject AdminSidebarService adminSidebarService
+
+@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Tittle"] = "Admin Control Panel";
+}
+ 
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

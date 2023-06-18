@@ -1,7 +1,11 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model App.Models.Product.CategoryProduct
 
 @{
     ViewData["Title"] = "Chỉnh sửa chuyên mục";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -50,4 +54,12 @@
 }
 
 <partial name="_Summernote" model="summernote" />
+
+@{
+    adminSidebarService.SetActive("Product", "CategoryProduct", "Edit");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}
 
