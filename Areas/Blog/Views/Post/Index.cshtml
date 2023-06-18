@@ -1,7 +1,11 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model IEnumerable<App.Models.Blog.Post>
 
 @{
     ViewData["Title"] = "Danh sách bài Posts";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -73,3 +77,11 @@
 
 
 <partial name="_PagingXTL" model="@ViewBag.pagingmodel" />
+
+@{
+    adminSidebarService.SetActive("Blog", "Post", "Index");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

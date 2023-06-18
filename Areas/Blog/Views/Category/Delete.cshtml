@@ -1,7 +1,11 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model App.Models.Blog.Category
 
 @{
     ViewData["Title"] = "Xóa chuyên mục";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -37,7 +41,15 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-action="Index">Quay về danh sách</a>
     </form>
 </div>
+
+@{
+    adminSidebarService.SetActive("Blog", "Category", "Delete");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

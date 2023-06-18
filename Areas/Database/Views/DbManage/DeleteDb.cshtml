@@ -1,5 +1,11 @@
+@using App.Menu
+
+@inject AdminSidebarService adminSidebarService
+@inject AppDbContext dbContext
+
 @{
     ViewData["Title"] = "Xóa Db";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,3 +15,12 @@
 <form method="post">
     <button type="submit" class="btn btn-danger">Xóa DB</button>
 </form>
+
+
+@{
+    adminSidebarService.SetActive("Database", "DbManage", "Index");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

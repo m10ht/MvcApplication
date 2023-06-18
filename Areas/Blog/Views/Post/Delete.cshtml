@@ -1,7 +1,11 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model App.Models.Blog.Post
 
 @{
     ViewData["Title"] = "Xóa bài viết";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -66,3 +70,10 @@
         <a asp-action="Index">Quay về danh sách bài viết</a>
     </form>
 </div>
+@{
+    adminSidebarService.SetActive("Blog", "Post", "Delete");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

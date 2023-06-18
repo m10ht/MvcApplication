@@ -20,6 +20,7 @@ namespace AppMvc.Net.Areas.Blog.Controllers
             _logger = logger;
             _context = context;
         }
+        
         [Route("/post/{categoryslug?}")]
         public IActionResult Index(string categoryslug,[FromQuery(Name = "p")]int currentPage, int pagesize)
         {

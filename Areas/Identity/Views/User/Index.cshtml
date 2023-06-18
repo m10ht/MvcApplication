@@ -1,6 +1,10 @@
+@using App.Menu
+@inject AdminSidebarService adminSidebarService
+
 @model UserListModel
 @{
     ViewData["Title"] = "Danh sách các thành viên";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage"></partial>
@@ -42,3 +46,11 @@
 }
 
 <partial name="_PagingXTL" model="@pagingmodel" />
+
+@{
+    adminSidebarService.SetActive("Identity", "User", "Index");
+}
+
+@section Siderbar {
+    @Html.Raw(adminSidebarService.CreateHtml());
+}

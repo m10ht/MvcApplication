@@ -11,29 +11,29 @@ namespace App.Areas.Identity.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [DataType(DataType.Text)]
+        [Display(Name = "Tên tài khoản", Prompt = "Tên tài khoản")]
+        [Required(ErrorMessage = "Phải nhập mật khẩu")]
+        [StringLength(100, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự.", MinimumLength = 3)]
+        public string UserName { get; set; }
+
         [Required(ErrorMessage = "Phải nhập {0}")]
         [EmailAddress(ErrorMessage = "Sai định dạng Email")]
-        [Display(Name = "Email")]
+        [Display(Name = "Email", Prompt = "Email")]
         public string Email { get; set; }
-
 
         [Required(ErrorMessage = "Phải nhập {0}")]
         [StringLength(100, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự.", MinimumLength = 2)]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật khẩu")]
+        [Display(Name = "Mật khẩu", Prompt = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Lặp lại mật khẩu")]
+        [Display(Name = "Lặp lại mật khẩu", Prompt = "Nhập lại mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật khẩu lặp lại không chính xác.")]
+        [Required(ErrorMessage = "Phải nhập lại mật khẩu")]
         public string ConfirmPassword { get; set; }
 
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Tên tài khoản")]
-        [Required(ErrorMessage = "Phải nhập {0}")]
-        [StringLength(100, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự.", MinimumLength = 3)]
-        public string UserName { get; set; }
 
     }
 }
