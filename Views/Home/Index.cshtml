@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var products = ViewBag.products as IQueryable<App.Models.Product.ProductModel>;
+    var posts = ViewBag.posts as IQueryable<App.Models.Blog.Post>;
 }
 
 <partial name="_AlertMessage" />
@@ -7,6 +9,58 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<h2>Các sản phẩm</h2>
+
+<div class="d-flex flex-wrap just-content-between">
+    @foreach (var product in products) {
+        var srcImg = "/contents/no_image.jpg";
+        if (product.Photos.Any()) {
+            srcImg = $"/contents/Products/{product.Photos.FirstOrDefault().FileName}";
+        }
+
+        <div class="card mb-2" style="width: 24%">
+          <img src="@srcImg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">@product.Title</h5>
+            <p class="card-text">@product.Description</p>
+            <p>
+                <strong class="text-danger">@product.productCategoryProducts.FirstOrDefault()?.Category.Title</strong>
+            </p>
+            <p>Giá sản phẩm: <strong>@product.Price</strong></p>
+          </div>
+          <div class="card-body">
+            <a class="card-link " asp-area="Product" asp-action="Details" asp-controller="ViewProduct" asp-route-productslug=@product.Slug>Chi tiết</a>
+                <a asp-area="Product" asp-action="AddToCart" asp-controller="ViewProduct" asp-route-productid="@product.ProductId" class="btn btn-primary ml-4">Đặt hàng</a>
+          </div>
+        </div>
+    }
+</div>
+
+<h2>Tin tức</h2>
+
+@foreach (var post in posts) {
+    <div class="media border-bottom mb-3 pb-3">
+        <img src="/contents/no_image.jpg" class="mr-3" style="width: 80px">
+        <div class="media-body">
+            <h5 class="mt-0">
+                <a asp-area="Blog" asp-action="Details" asp-controller="ViewPost" asp-route-postslug=@post.Slug>
+                    @post.Title
+                </a>
+            </h5>
+            @post.Description
+            <div>
+                Chủ đề:
+                <strong class="text-danger">
+                    @post.PostCategories.FirstOrDefault()?.Category.Title
+                </strong>
+            </div>
+            <div class="author-row"></div>
+                Tác giả: <strong>@post.Author.UserName |</strong>
+                Ngày cập nhật: <i>@post.DateUpdated.ToShortDateString()</i>
+        </div>
+    </div>
+}
 
 @* <textarea id="summernoteEditor"></textarea>
     
