@@ -7,6 +7,7 @@ using App.Models;
 using App.Models.Blog;
 using App.Models.Product;
 using Bogus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,14 +19,16 @@ namespace App.Areas.Database.Controllers
     public class DbManageController : Controller
     {
         private readonly UserManager<AppUser> _userManage;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManage;
         private readonly AppDbContext _dbContext;
 
-        public DbManageController(UserManager<AppUser> userManage, RoleManager<IdentityRole> roleManage, AppDbContext dbContext)
+        public DbManageController(UserManager<AppUser> userManage, RoleManager<IdentityRole> roleManage, AppDbContext dbContext, SignInManager<AppUser> signInManager)
         {
             _userManage = userManage;
             _roleManage = roleManage;
             _dbContext = dbContext;
+            _signInManager = signInManager;
         }
 
         [TempData]
@@ -36,11 +39,13 @@ namespace App.Areas.Database.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleName.Administrator)]
         public IActionResult DeleteDb() {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.Administrator)]
         public async Task<IActionResult> DeleteDbAsync() {
             var result = await _dbContext.Database.EnsureDeletedAsync();
             StatusMessage = result ? "Đã xóa DB" : "Không thể xóa Db";
@@ -73,6 +78,16 @@ namespace App.Areas.Database.Controllers
                 };
                 await _userManage.CreateAsync(useradmin, "qweqwe");
                 await _userManage.AddToRoleAsync(useradmin, RoleName.Administrator);
+                await _signInManager.SignInAsync(useradmin, false);
+
+                return RedirectToAction(nameof(SeedDataAsync));
+            } else {
+                var user = await _userManage.GetUserAsync(this.User);
+                if (user == null)
+                    return this.Forbid();
+                var roles = await _userManage.GetRolesAsync(user);
+                if (!roles.Any(r => r == RoleName.Administrator))
+                    return this.Forbid();
             }
             
             SeedPostCategory();
